@@ -1,16 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. DYNAMIC GREETING (User Interaction) ---
-    const greetingMsg = document.getElementById('greeting');
-    const hour = new Date().getHours();
-    let welcomeText = "";
+    // --- 1. DYNAMIC GREETING & STATE MANAGEMENT ---
+const greetingMsg = document.getElementById('greeting');
+const hour = new Date().getHours();
+let welcomeText = hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
 
-    if (hour < 12) welcomeText = "Good Morning";
-    else if (hour < 18) welcomeText = "Good Afternoon";
-    else welcomeText = "Good Evening";
+// Check for saved visitor name
+let visitorName = localStorage.getItem('visitorName');
 
-    // Updates content dynamically based on time of day
-    greetingMsg.innerText = `${welcomeText}, I'm Mohammed Alzaid`;
+if (!visitorName) {
+    visitorName = prompt("Welcome! What is your name?");
+    if (visitorName) {
+        localStorage.setItem('visitorName', visitorName);
+    } else {
+        visitorName = "Guest";
+    }
+}
+
+greetingMsg.innerText = `${welcomeText}, ${visitorName}! I'm Mohammed.`;
 
 
     // --- 2. DARK MODE & LOCAL STORAGE (Data Handling) ---
@@ -58,4 +65,67 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     console.log("Portfolio Assignment 2 Interactive Features Loaded.");
+    // --- 4. API INTEGRATION (GitHub Repos) ---
+const githubContainer = document.getElementById('github-container');
+const githubUsername = 'suleiman-MBS'; 
+
+async function fetchGitHubRepos() {
+    try {
+        const response = await fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated&per_page=4`);
+        
+        if (!response.ok) throw new Error("Failed to fetch repositories.");
+        
+        const repos = await response.json();
+        githubContainer.innerHTML = ''; // Clear loading text
+
+        repos.forEach(repo => {
+            const repoCard = document.createElement('div');
+            repoCard.className = 'card';
+            repoCard.innerHTML = `
+                <h3>${repo.name}</h3>
+                <p>${repo.description || "No description provided."}</p>
+                <a href="${repo.html_url}" target="_blank" style="color: var(--primary-blue); font-weight: bold; text-decoration: none;">View Code &rarr;</a>
+            `;
+            githubContainer.appendChild(repoCard);
+        });
+    } catch (error) {
+        githubContainer.innerHTML = `<p style="color: red;">⚠️ Could not load repositories at this time.</p>`;
+        console.error("API Error:", error);
+    }
+}
+fetchGitHubRepos();
+
+// --- 5. COMPLEX LOGIC (Project Filtering) ---
+const filterButtons = document.querySelectorAll('.filter-btn');
+const projectItems = document.querySelectorAll('.project-item');
+
+filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const filterValue = button.getAttribute('data-filter');
+
+        projectItems.forEach(item => {
+            if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+});
+
+const submitBtn = contactForm.querySelector('button[type="submit"]');
+submitBtn.disabled = true;
+submitBtn.innerText = "Sending...";
+
+// Simulate network delay, then re-enable
+setTimeout(() => {
+    submitBtn.disabled = false;
+    submitBtn.innerText = "Send Message";
+    contactForm.reset();
+}, 1500);
+
 });
