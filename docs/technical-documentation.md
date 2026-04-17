@@ -33,7 +33,7 @@ This project is a responsive personal portfolio website built using semantic HTM
 ## 6. Installation & Setup
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/suleiman-MBS/202272600-mohammedalzaid-assignment3.git](https://github.com/suleiman-MBS/202272600-mohammedalzaid-assignment3.git)
+   git clone (https://github.com/suleiman-MBS/202272600-mohammedalzaid-assignment3.git)
 2. Navigate to the project root.
 3.  Open `index.html` in a browser. No build steps or server requirements are needed.
 

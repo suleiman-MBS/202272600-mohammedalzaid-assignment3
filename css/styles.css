@@ -83,6 +83,37 @@ button[type="submit"]:hover { background: #0056b3; transform: scale(1.02); }
 /* Feedback message styling */
 #form-feedback { margin-top: 15px; font-weight: bold; }
 
+/* 7. Filter Buttons Styling (Assignment 3) */
+.filter-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap; /* Keeps them neat on mobile */
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    border: 2px solid var(--card-bg);
+    border-radius: 25px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    font-weight: bold;
+    transition: all var(--transition-speed);
+}
+
+.filter-btn:hover {
+    border-color: var(--primary-blue);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: var(--primary-blue);
+    color: white;
+    border-color: var(--primary-blue);
+}
+
 /* Desktop Media Query */
 @media (min-width: 768px) {
     .project-grid { grid-template-columns: 1fr 1fr; }
